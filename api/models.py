@@ -9,6 +9,12 @@ class Product(models.Model):
     is_active = models.BooleanField()
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
