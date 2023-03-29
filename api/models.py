@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.FloatField()
+    description = models.TextField(blank=True)
+    count = models.IntegerField()
+    is_active = models.BooleanField()
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
