@@ -12,6 +12,17 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'name': self.name,
+            'price': self.price,
+            'description': self.description,
+            'count': self.count,
+            'is_active': self.is_active,
+            'category_id': self.cat_id,
+        }
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -19,3 +30,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'name': self.name,
+        }
