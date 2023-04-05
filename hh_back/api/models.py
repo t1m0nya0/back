@@ -1,13 +1,11 @@
 from django.db import models
 
 
-class Product(models.Model):
+class Company(models.Model):
     name = models.CharField(max_length=255)
-    price = models.FloatField()
     description = models.TextField(blank=True)
-    count = models.IntegerField()
-    is_active = models.BooleanField()
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)
+    city = models.CharField(max_length=255)
+    address = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
@@ -16,16 +14,17 @@ class Product(models.Model):
         return {
             'id': self.pk,
             'name': self.name,
-            'price': self.price,
             'description': self.description,
-            'count': self.count,
-            'is_active': self.is_active,
-            'category_id': self.cat_id,
+            'city': self.city,
+            'address': self.address,
         }
 
 
-class Category(models.Model):
+class Vacancy(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    salary = models.FloatField()
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -34,4 +33,7 @@ class Category(models.Model):
         return {
             'id': self.pk,
             'name': self.name,
+            'description': self.description,
+            'salary': self.salary,
+            'company': self.company.to_json(),
         }
