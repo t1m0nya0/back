@@ -27,9 +27,11 @@ class VacancyTopList(generics.ListAPIView):
 
 
 class VacancyByCompanyList(mixins.ListModelMixin,
+                           mixins.CreateModelMixin,
                            GenericAPIView):
+
     def create(self, request, *args, **kwargs):
-        request.data["company_id"] = kwargs["company_id"]
+        request.data["company"] = kwargs["company_id"]
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -46,4 +48,3 @@ class VacancyByCompanyList(mixins.ListModelMixin,
 
     def get_queryset(self):
         return Vacancy.objects.filter(company_id=self.kwargs["company_id"])
-
