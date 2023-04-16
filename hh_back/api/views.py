@@ -6,17 +6,14 @@ from rest_framework.parsers import JSONParser
 
 
 def vacancy_top(request):
-    vacancies = Vacancy.objects.all().order_by('-salary')[:10]
-    vacancies_json = [p.to_json() for p in vacancies]
-    return JsonResponse(vacancies_json, safe=False, json_dumps_params={'indent': 2})
+    if request.method == 'GET':
+        vacancies = Vacancy.objects.all().order_by('-salary')[:10]
+        serializer = VacancyModelSerializer(vacancies, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
-###################################################################################################
 @csrf_exempt
 def company_list(request):
-    """
-    List all transformers, or create a new transformer
-    """
     if request.method == 'GET':
         companies = Company.objects.all()
         serializer = CompanyModelSerializer(companies, many=True)
@@ -58,9 +55,6 @@ def company_detail(request, company_id):
 
 @csrf_exempt
 def vacancy_list(request):
-    """
-    List all transformers, or create a new transformer
-    """
     if request.method == 'GET':
         vacancies = Vacancy.objects.all()
         serializer = VacancyModelSerializer(vacancies, many=True)
