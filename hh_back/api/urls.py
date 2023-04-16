@@ -1,11 +1,17 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+
 from .views import *
 
+
+router_c = routers.SimpleRouter()
+router_c.register(r'companies', CompanyViewSet)
+router_v = routers.SimpleRouter()
+router_v.register(r'vacancies', VacancyViewSet)
+
 urlpatterns = [
-    path('companies/', company_list),
-    path('companies/<int:company_id>/', company_detail),
-    path('companies/<int:company_id>/vacancies/', vacancy_list_by_company),
-    path('vacancies/', vacancy_list),
-    path('vacancies/<int:vacancy_id>/', vacancy_detail),
-    path('vacancies/top_ten/', vacancy_top),
+    path('companies/<int:company_id>/vacancies/', VacancyByCompanyList.as_view()),
+    path('vacancies/top_ten/', VacancyTopList.as_view()),
+    path('', include(router_c.urls)),
+    path('', include(router_v.urls)),
 ]
