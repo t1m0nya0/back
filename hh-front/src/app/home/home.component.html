@@ -1,0 +1,19 @@
+<h1>Companies</h1>
+<ul>
+  <li *ngFor="let company of companies">
+    {{company.id}} - <a [routerLink]="['/companies',company.id]" (click)="onSelectedId(company.id)">{{company.name}}</a>
+    <button (click)="delete(company.id)">X</button>
+  </li>
+</ul>
+
+<fieldset>
+  <label>Create Company:</label>
+  <input type="text" placeholder="Name" [(ngModel)]="newCompanyName">
+  <input type="text" placeholder="Description" [(ngModel)]="newCompanyDescription" >
+  <input type="text" placeholder="City"[(ngModel)]="newCompanyCity">
+  <input type="text" placeholder="Address"[(ngModel)]="newCompanyAddress">
+  <hr>
+  To update existing company (leave it 0 if add)
+  <input type="number"[(ngModel)]="newCompanyID">
+  <button (click)="addCompany()">Add Company</button>
+</fieldset>
